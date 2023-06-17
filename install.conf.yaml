@@ -1,0 +1,16 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean:
+    ~/:
+    ~/.config:
+
+- link:
+    ~/.zshrc:
+      path: zsh/.zshrc
+      force: true
+    ~/.config/nvim:
+      path: nvim
+      force: true
