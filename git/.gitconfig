@@ -1,7 +1,6 @@
 [user]
 	name = Luqman Azhar
 	email = Luqman_Azhar@hotmail.com
-    username = LuqmanAzhar
 [core]
     editor = nvim
 	autocrlf = input
@@ -10,3 +9,5 @@
     tool = vimdiff
 [alias]
     graph = log --all --graph --decorate
+[init]
+    defaultBranch = main
