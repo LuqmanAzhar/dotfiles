@@ -2,6 +2,7 @@
     link:
       create: true
       relink: true
+      force: true
 
 - clean:
     ~/:
@@ -10,7 +11,9 @@
 - link:
     ~/.zshrc:
       path: zsh/.zshrc
-      force: true
     ~/.config/nvim:
       path: nvim
-      force: true
+    ~/.gitconfig:
+      path: git/.gitconfig
+    ~/.gitignore:
+      path: git/.gitignore
