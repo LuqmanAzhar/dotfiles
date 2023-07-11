@@ -17,3 +17,5 @@
       path: git/.gitconfig
     ~/.gitignore:
       path: git/.gitignore
+    ~/.tmux.conf:
+      path: tmux/.tmux.conf
