@@ -15,6 +15,10 @@ return require('packer').startup(function(use)
 
   -- This for the current Style and theme
   use { "catppuccin/nvim", as = "catppuccin" }
+  use {
+    "nvim-lualine/lualine.nvim",
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  }
 
   -- This is for syntax highlighting it does a tree on the
   use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
