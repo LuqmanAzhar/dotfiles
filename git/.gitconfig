@@ -1,8 +1,8 @@
 [user]
 	name = Luqman Azhar
-	email = Luqman_Azhar@hotmail.com
+	email = ContactMe@LuqmanAzhar.com
 [core]
-    editor = nvim
+    editor = vim
 	autocrlf = input
 	excludesfile = ~/.gitignore
 [diff]
