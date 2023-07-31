@@ -1,0 +1,9 @@
+# Uninstallation
+
+https://github.com/folke/lazy.nvim#-uninstalling
+
+To uninstall lazy.nvim, you need to remove the following files and directories:
+
+- data: ~/.local/share/nvim/lazy
+- state: ~/.local/state/nvim/lazy
+- lockfile: ~/.config/nvim/lazy-lock.json

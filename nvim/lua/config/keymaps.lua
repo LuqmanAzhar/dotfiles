@@ -17,7 +17,7 @@ vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
--- Cut to Clipboardl
+-- Cut to Clipboard
 vim.keymap.set("n", "<leader>x", "\"+d")
 vim.keymap.set("v", "<leader>x", "\"+d")
 vim.keymap.set("n", "<leader>X", "\"+D")
@@ -26,4 +26,3 @@ vim.keymap.set("n", "<leader>X", "\"+D")
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
 vim.keymap.set("n", "<leader>D", "\"_D")
-
