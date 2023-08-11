@@ -1,11 +1,15 @@
-vim.opt.nu = true
+
+-- Line Numbers
+vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Default Tab Definitions
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+-- Auto Identing 
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
