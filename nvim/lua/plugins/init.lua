@@ -34,7 +34,7 @@ local plugins = {
     -- Navigation
     -----------------------------------------------------------------------------
     {
-        "folke/which-key.nvim",  
+        "folke/which-key.nvim",
         opts = { }
     },
 
@@ -121,17 +121,40 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Comment lines/blocks
     {
+        'numToStr/Comment.nvim',
+        opts = { },
+        lazy = false,
+        config = function () require('Comment').setup() end
+    },
+    -- Changing Sournding Matched Pairs
+    {
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
         config = function() require("nvim-surround").setup() end
     },
 
+
     -----------------------------------------------------------------------------
     -- Git
     -----------------------------------------------------------------------------
     { 'tpope/vim-fugitive' },
     { 'tpope/vim-rhubarb' },
+
+    -----------------------------------------------------------------------------
+    -- Git
+    -----------------------------------------------------------------------------
+    {
+        "epwalsh/obsidian.nvim",
+        lazy = true,
+        event = { "BufReadPre " .. vim.fn.expand "~" .. "/MindPalace/**.md" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            'hrsh7th/nvim-cmp',
+            "nvim-telescope/telescope.nvim"
+        },
+        config = function() require("plugins.config.obsidian") end,
+    }
 
 }
 

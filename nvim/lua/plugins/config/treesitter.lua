@@ -1,12 +1,18 @@
 require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     --
-    ensure_installed = {'lua'},
+    modules = {},
+    sync_install = false,
+    ensure_installed = {'lua', "markdown", "markdown_inline"},
+    ignore_install = {},
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = true,
 
-    highlight = { enable = true },
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = { "markdown"}
+    },
     indent = { enable = true },
     incremental_selection = {
         enable = true,

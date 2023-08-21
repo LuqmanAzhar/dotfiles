@@ -64,8 +64,9 @@ local servers = {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
         },
-    },
+    }
 }
+
 
 -- Setup neovim lua configuration
 require('neodev').setup()
@@ -90,4 +91,12 @@ mason_lspconfig.setup_handlers {
             filetypes = (servers[server_name] or {}).filetypes,
         }
     end
+}
+
+require('lspconfig').sourcekit.setup {
+    log_level = vim.lsp.set_log_level("Trace"),
+    cmd = { "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp" },
+    -- cmd = { "/usr/bin/sourcekit-lsp" },
+    capabilities = capabilities,
+    on_attach = on_attach
 }
