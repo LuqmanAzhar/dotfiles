@@ -26,3 +26,7 @@ vim.keymap.set("n", "<leader>X", "\"+D")
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
 vim.keymap.set("n", "<leader>D", "\"_D")
+
+vim.keymap.set("n", "<leader>vd",
+    "<cmd> lua vim.diagnostic.open_float() <CR>",
+    {desc = "[V]iew [D]iagnostic"})
