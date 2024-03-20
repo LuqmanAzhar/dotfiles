@@ -57,6 +57,12 @@ obsidian.setup {
             end,
             opts = { desc = '[O][B]sidian [S]earch', buffer = true, expr = true },
         },
+        ["<leader>obt"] = {
+            action = function()
+                return "<cmd>ObsidianTags<CR>"
+            end,
+            opts = { desc = '[O][B]sidian [T]ags', buffer = true, expr = true },
+        },
     },
 
     -- Where to put new notes. Valid options are

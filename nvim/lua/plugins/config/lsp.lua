@@ -93,10 +93,10 @@ mason_lspconfig.setup_handlers {
     end
 }
 
-require('lspconfig').sourcekit.setup {
-    -- log_level = vim.lsp.set_log_level("Trace"),
-    cmd = { "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp" },
-    -- cmd = { "/usr/bin/sourcekit-lsp" },
-    capabilities = capabilities,
-    on_attach = on_attach
-}
+-- require('lspconfig').sourcekit.setup {
+--     -- log_level = vim.lsp.set_log_level("Trace"),
+--     cmd = { "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp" },
+--     -- cmd = { "/usr/bin/sourcekit-lsp" },
+--     capabilities = capabilities,
+--     on_attach = on_attach
+-- }
