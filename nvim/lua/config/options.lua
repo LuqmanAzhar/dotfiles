@@ -29,3 +29,7 @@ vim.opt.colorcolumn = "80"
 vim.opt.updatetime = 50
 
 vim.opt.undofile = true
+
+-- Experimental flags 
+vim.opt.spelllang = "en_au"
+vim.opt.spell = true
