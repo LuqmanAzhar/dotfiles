@@ -58,6 +58,12 @@ obsidian.setup {
             end,
             opts = { desc = '[S]earch [O][B]sidian', buffer = true, expr = true },
         },
+        ["<leader>obs"] = {
+            action = function()
+                return "<cmd>ObsidianSearch<CR>"
+            end,
+            opts = { desc = '[O][B]sidian [S]earch', buffer = true, expr = true },
+        },
     },
 
     -- Where to put new notes. Valid options are
