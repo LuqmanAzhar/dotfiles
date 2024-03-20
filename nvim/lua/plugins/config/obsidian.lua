@@ -1,6 +1,5 @@
 local obsidian = require("obsidian")
 
-
 -----------------
 -- Simple Keymaps
 -----------------
@@ -15,13 +14,7 @@ vim.keymap.set("n", "gf", function()
 
 end, { noremap = false, expr = true })
 
--- allowing <leader>[O][B]sidian [E]xtract Note
-vim.keymap.set("v", "<leader>obe", function()
-    return "<cmd>ObsidianExtractNote<CR>"
-end, { noremap = false, desc = '[O][B]sidian [E]xtract Note', buffer = true, expr = true })
-
 vim.opt.conceallevel = 1
-
 
 obsidian.setup {
     workspaces = {
