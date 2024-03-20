@@ -1,5 +1,11 @@
 local obsidian = require("obsidian")
 
+
+-----------------
+-- Simple Keymaps
+-----------------
+
+-- allowing [g]oto [f]ile to work 
 vim.keymap.set("n", "gf", function()
     if obsidian.util.cursor_on_markdown_link() then
         return "<cmd>ObsidianFollowLink<CR>"
@@ -9,7 +15,13 @@ vim.keymap.set("n", "gf", function()
 
 end, { noremap = false, expr = true })
 
-vim.cmd.set.conceallevel = 1
+-- allowing <leader>[O][B]sidian [E]xtract Note
+vim.keymap.set("v", "<leader>obe", function()
+    return "<cmd>ObsidianExtractNote<CR>"
+end, { noremap = false, desc = '[O][B]sidian [E]xtract Note', buffer = true, expr = true })
+
+vim.opt.conceallevel = 1
+
 
 obsidian.setup {
     workspaces = {
@@ -46,7 +58,6 @@ obsidian.setup {
             end,
             opts = { desc = '[S]earch [O][B]sidian', buffer = true, expr = true },
         },
-
     },
 
     -- Where to put new notes. Valid options are
