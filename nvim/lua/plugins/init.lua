@@ -146,8 +146,14 @@ local plugins = {
     -----------------------------------------------------------------------------
     {
         "epwalsh/obsidian.nvim",
+        version = "*",
         lazy = true,
-        event = { "BufReadPre " .. vim.fn.expand "~" .. "/MindPalace/**.md" },
+        event = {
+            "BufReadPre " .. vim.fn.expand "~" .. "/MindPalace/**.md",
+            "BufReadPre " .. vim.fn.expand "~" .. "/MindPalace/**/**.md",
+            "BufNewFile " .. vim.fn.expand "~" .. "/MindPalace/**.md",
+            "BufNewFile " .. vim.fn.expand "~" .. "/MindPalace/**/**.md",
+        },
         dependencies = {
             "nvim-lua/plenary.nvim",
             'hrsh7th/nvim-cmp',

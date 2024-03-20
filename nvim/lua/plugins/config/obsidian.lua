@@ -1,5 +1,7 @@
+local obsidian = require("obsidian")
+
 vim.keymap.set("n", "gf", function()
-    if require("obsidian").util.cursor_on_markdown_link() then
+    if obsidian.util.cursor_on_markdown_link() then
         return "<cmd>ObsidianFollowLink<CR>"
     else
         return "gf"
@@ -7,8 +9,9 @@ vim.keymap.set("n", "gf", function()
 
 end, { noremap = false, expr = true })
 
+vim.cmd.set.conceallevel = 1
 
-require("obsidian").setup {
+obsidian.setup {
     workspaces = {
         {
             name = "MindPalace",
@@ -21,18 +24,6 @@ require("obsidian").setup {
     -- levels defined by "vim.log.levels.*".
     log_level = vim.log.levels.INFO,
 
-    -- ignored leave as is but will likely not use daily_notes
-    daily_notes = {
-        -- Optional, if you keep daily notes in a separate directory.
-        folder = "notes/dailies",
-        -- Optional, if you want to change the date format for the ID of daily notes.
-        date_format = "%Y-%m-%d",
-        -- Optional, if you want to change the date format of the default alias of daily notes.
-        alias_format = "%B %-d, %Y",
-        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-        template = nil
-    },
-
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
     completion = {
         -- Set to false to disable completion.
@@ -42,7 +33,21 @@ require("obsidian").setup {
     },
 
     -- This is where leader mappings may live 
-    mappings = {},
+    mappings = {
+        ["<leader>obn"] = {
+            action = function()
+                return "<cmd>ObsidianNew<CR>"
+            end,
+            opts = { desc = '[O][B]sidian[N]ew', buffer = true, expr = true},
+        },
+        ["<leader>sob"] = {
+            action = function()
+                return "<cmd>ObsidianSearch<CR>"
+            end,
+            opts = { desc = '[S]earch [O][B]sidian', buffer = true, expr = true },
+        },
+
+    },
 
     -- Where to put new notes. Valid options are
     --  * "current_dir" - put new notes in same directory as the current buffer.
@@ -56,7 +61,7 @@ require("obsidian").setup {
         local note_id = ""
         if title ~= nil then
             -- If title is given, transform it into valid file name.
-            note_id = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+            note_id = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", "")
         else
             -- If title is nil, just add 4 random uppercase letters to the suffix.
             for _ = 1, 4 do
@@ -210,10 +215,10 @@ require("obsidian").setup {
         -- Define how various check-boxes are displayed
         checkboxes = {
             -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
-            [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-            ["x"] = { char = "", hl_group = "ObsidianDone" },
-            [">"] = { char = "", hl_group = "ObsidianRightArrow" },
-            ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+            [" "] = { char = "☐", hl_group = "ObsidianTodo" },
+            ["x"] = { char = "✔", hl_group = "ObsidianDone" },
+            [">"] = { char = ">", hl_group = "ObsidianRightArrow" },
+            ["~"] = { char = "~", hl_group = "ObsidianTilde" },
             -- Replace the above with this if you don't have a patched font:
             -- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
             -- ["x"] = { char = "✔", hl_group = "ObsidianDone" },
@@ -222,7 +227,7 @@ require("obsidian").setup {
         },
         -- Use bullet marks for non-checkbox lists.
         bullets = { char = "•", hl_group = "ObsidianBullet" },
-        external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
+        external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
         -- Replace the above with this if you don't have a patched font:
         -- external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
         reference_text = { hl_group = "ObsidianRefText" },
