@@ -63,6 +63,12 @@ obsidian.setup {
             end,
             opts = { desc = '[O][B]sidian [T]ags', buffer = true, expr = true },
         },
+        ["<leader>obr"] = {
+            action = function()
+                return "<cmd>ObsidianRename<CR>"
+            end,
+            opts = { desc = '[O][B]sidian [R]ename', buffer = true, expr = true },
+        },
     },
 
     -- Where to put new notes. Valid options are
