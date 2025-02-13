@@ -163,7 +163,10 @@ local plugins = {
             'hrsh7th/nvim-cmp',
             "nvim-telescope/telescope.nvim"
         },
-        config = function() require("plugins.config.obsidian") end,
+        config = function()
+            require("plugins.config.obsidian")
+            vim.opt.colorcolumn = "120"
+        end,
     }
 
 }
