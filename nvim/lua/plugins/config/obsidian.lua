@@ -58,6 +58,12 @@ obsidian.setup {
             end,
             opts = { desc = '[O][B]sidian[N]ew', buffer = true, expr = true},
         },
+        ["<leader>obd"] = {
+            action = function()
+                return "<cmd>ObsidianDailies -7 7<CR>"
+            end,
+            opts = { desc = '[O][B]sidian[D]ailies', buffer = true, expr = true},
+        },
         ["<leader>sob"] = {
             action = function()
                 return "<cmd>ObsidianSearch<CR>"
