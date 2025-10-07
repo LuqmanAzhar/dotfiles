@@ -29,6 +29,19 @@ obsidian.setup {
     -- levels defined by "vim.log.levels.*".
     log_level = vim.log.levels.INFO,
 
+    daily_notes = {
+        -- Optional, if you keep daily notes in a separate directory.
+        folder = "DAILIES",
+        -- Optional, if you want to change the date format for the ID of daily notes.
+        date_format = "%Y-%m-%d %a",
+        -- Optional, if you want to change the date format of the default alias of daily notes.
+        alias_format = "%B %-d, %Y",
+        -- Optional, default tags to add to each new daily note created.
+        default_tags = { "daily-notes" },
+        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+        template = "daily.md",
+    },
+
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
     completion = {
         -- Set to false to disable completion.
@@ -158,7 +171,14 @@ obsidian.setup {
         date_format = "%Y-%m-%d",
         time_format = "%H:%M",
         -- A map for custom variables, the key should be the variable and the value a function
-        substitutions = {},
+        substitutions = {
+            yesterday = function()
+                return os.date("%Y-%m-%d", os.time() - 86400)
+            end,
+            tomorrow = function()
+                return os.date("%Y-%m-%d", os.time() + 86400)
+            end
+        },
     },
 
     -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
