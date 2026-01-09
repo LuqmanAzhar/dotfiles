@@ -48,9 +48,11 @@ export MANPAGER='nvim +Man!'
 
 alias vim="nvim"
 alias vi="nvim"
-alias ll="ls -alF"
-alias la="ls -A"
-alias l="ls -CF"
+alias ls="ls --color=auto"
+alias ll="ls -alF --color=auto"
+alias la="ls -A --color=auto"
+alias l="ls -CF --color=auto"
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
