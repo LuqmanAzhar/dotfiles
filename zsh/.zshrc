@@ -10,7 +10,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Completion
 autoload -Uz compinit
-compinit
+compinit -C
 
 # cd stack
 
