@@ -7,7 +7,6 @@
 - clean:
     ~/:
     ~/.config:
-    ~/.oh-my-zsh:
 
 - link:
     ~/.zshrc:
@@ -22,22 +21,19 @@
       path: tmux/.tmux.conf
 
 - shell:
-  - command: rm -rf ~/.oh-my-zsh
-    description: remove oh my zsh config
-    stdin: true
-    stdout: true
-    stderr: true
-  - 
-    command: git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh    
-    description: clone oh my zsh
-    stdin: true
-    stdout: true
-    stderr: true
-  - 
-    command: sudo chsh -s $(which zsh)
+
+  - command: sudo chsh -s $(which zsh)
     description: change default sh to zsh
     stdin: true
     stdout: true
     stderr: true
-  - [git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions, clone zsh-autosuggestions]
-  - [git clone https://github.com/jeffreytse/zsh-vi-mode ~/.oh-my-zsh/custom/plugins/zsh-vi-mode, clone zsh-vi-mode to custom]
+  - command: sh -c 'if [ ! -d "$HOME/.local/share/zinit/zinit.git" ]; then git clone https://github.com/zdharma-continuum/zinit.git "$HOME/.local/share/zinit/zinit.git"; else echo "zinit already Installed"; fi'
+    description: ZINIT CLONE IDEMPOTENT
+    stdin: true
+    stdout: true
+    stderr: true
+  - command: [curl -fsSL https://starship.rs/install.sh | sh]
+    description: STARSHIP INSTALL IDEMPOTENT
+    stdin: true
+    stdout: true
+    stderr: true
