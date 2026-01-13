@@ -168,17 +168,6 @@ local plugins = {
             vim.opt.colorcolumn = "120"
         end,
     },
-    -----------------------------------------------------------------------------
-    -- Chezmoi (DotFile Manager)
-    -----------------------------------------------------------------------------
-    {
-        'xvzc/chezmoi.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            require("chezmoi").setup {
-            }
-        end
-    }
 }
 
 plugin.setup(plugins)
