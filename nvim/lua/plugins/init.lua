@@ -113,7 +113,7 @@ local plugins = {
     -----------------------------------------------------------------------------
     {
         'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
+        version = '*',
         dependencies = {
             'nvim-lua/plenary.nvim',
             -- Fuzzy Finder Algorithm which requires local dependencies to be built.
