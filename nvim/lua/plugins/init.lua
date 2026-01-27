@@ -1,14 +1,17 @@
 -- This is Where all the Plugins get described and defined 
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system {
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "--single-branch",
-        "https://github.com/folke/lazy.nvim.git",
-        lazypath,
-    }
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.runtimepath:prepend(lazypath)
 
@@ -20,13 +23,13 @@ local plugins = {
     -- Look & feel
     -----------------------------------------------------------------------------
     {
-        "catppuccin/nvim",
+        "catppuccin/nvim", -- Visual Theme
         name = "catpuccin",
         config = function() require("plugins.config.theme") end,
     },
 
     {
-        "nvim-lualine/lualine.nvim",
+        "nvim-lualine/lualine.nvim", -- Vim Status line
         config = function() require("plugins.config.lualine") end,
         event = "VimEnter",
     },
@@ -34,34 +37,43 @@ local plugins = {
     -- Navigation
     -----------------------------------------------------------------------------
     {
-        "folke/which-key.nvim",
-        opts = { }
+        "folke/which-key.nvim", -- Interactive List of Vim Actions
     },
     {
-        "chentoast/marks.nvim",
+        "chentoast/marks.nvim", -- Improved Marks
         event = "VeryLazy",
-        opts = {},
     },
     -----------------------------------------------------------------------------
     -- LSP
     -----------------------------------------------------------------------------
-
     {
-        -- LSP Configuration & Plugins
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            -- Automatically install LSPs to stdpath for neovim
-            { 'williamboman/mason.nvim', config = true },
-            'williamboman/mason-lspconfig.nvim',
-
-            -- Useful status updates for LSP
-            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
-
-            -- Additional lua configuration, makes nvim stuff amazing!
-            'folke/neodev.nvim',
+        "folke/lazydev.nvim", -- Configures LuaLS for neovim configs
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
         },
-        config = function() require("plugins.config.lsp") end
+    },
+    {
+        -- LSP Configuration Defaults and Mason
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            {"mason-org/mason.nvim", opts = {
+                ui = {
+                    icons = {
+                        package_installed = "✓",
+                        package_pending = "➜",
+                        package_uninstalled = "✗"
+                } } }
+            },
+            "mason-org/mason-lspconfig.nvim",
+            {"j-hui/fidget.nvim", opts = {}},
+            "saghen/blink.cmp",
+        },
+        config = function()
+            require("plugins.config.lsp")
+        end
     },
 
     -----------------------------------------------------------------------------
