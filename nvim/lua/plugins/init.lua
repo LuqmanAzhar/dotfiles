@@ -169,7 +169,6 @@ local plugins = {
         },
         config = function()
             require("plugins.config.obsidian")
-            vim.opt.colorcolumn = "120"
         end,
     },
 }
