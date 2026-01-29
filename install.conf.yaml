@@ -13,6 +13,8 @@
       path: zsh/.zshrc
     ~/.config/nvim:
       path: nvim
+    ~/.config/sway:
+      path: sway
     ~/.gitconfig:
       path: git/.gitconfig
     ~/.gitignore:
