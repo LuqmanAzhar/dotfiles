@@ -57,6 +57,10 @@ local plugins = {
             "WhoIsSethDaniel/mason-tool-installer.nvim",
 
             { "j-hui/fidget.nvim", opts = {} },
+            { "folke/lazydev.nvim",
+                ft = "lua", -- only load on lua files
+                opts = { library = { { path = "${3rd}/luv/library", words = { "vim%.uv" } }, }, },
+            },
             "saghen/blink.cmp",
         },
         config = function() require("plugins.config.lsp") end
@@ -64,31 +68,74 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Completions
     -----------------------------------------------------------------------------
-    { -- Autocompletion
-        'hrsh7th/nvim-cmp',
+   { -- Auto completion Blink
+        "saghen/blink.cmp",
+        event = "VimEnter",
+        version = "1.*",
         dependencies = {
-            -- Snippet Engine & its associated nvim-cmp source
-            'L3MON4D3/LuaSnip',
-            'saadparwaiz1/cmp_luasnip',
-
-            -- Adds LSP completion capabilities
-            'hrsh7th/cmp-nvim-lsp',
-
-            -- Adds a number of user-friendly snippets
-            'rafamadriz/friendly-snippets',
+            -- Snippet Engine
+            {
+                "L3MON4D3/LuaSnip",
+                version = "2.*",
+                build = (function()
+                    if vim.fn.has "win32" == 1 or vim.fn.executable "make" == 0 then return end
+                    return "make install_jsregexp"
+                end)(),
+                dependencies = {
+                    {
+                      "rafamadriz/friendly-snippets",
+                      config = function()
+                        require("luasnip.loaders.from_vscode").lazy_load()
+                      end,
+                    },
+                },
+                opts = {},
+            },
         },
-        config = function() require("plugins.config.cmp") end
+        --- @module "blink.cmp"
+        --- @type blink.cmp.Config
+        opts = {
+            keymap = {
+                preset = "default",
+                ["<CR>"] = { "accept", "fallback" },
+				["<Tab>"] = { "select_next", "fallback" },
+				["<S-Tab>"] = { "select_prev", "fallback" },
+				["<Up>"] = { "scroll_documentation_up", "fallback" },
+				["<Down>"] = { "scroll_documentation_down", "fallback" },
+				["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+            },
+            appearance = {
+                nerd_font_variant = "mono",
+            },
+            completion = {
+                documentation = { auto_show = true, auto_show_delay_ms = 500 },
+            },
+            snippets = { preset = "luasnip" },
+            fuzzy = { implementation = "lua" },
+            signature = { enabled = true },
+            sources = {
+                default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+                providers = {
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        score_offset = 100,
+                    },
+                },
+            },
+        }
     },
-
     -----------------------------------------------------------------------------
     -- Treesitter
     -----------------------------------------------------------------------------
     { -- Treesitter Text selections:<C-space>
         "nvim-treesitter/nvim-treesitter",
+        branch = "master",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         build = ":TSUpdate",
+        lazy = false,
         config = function() require("plugins.config.treesitter") end,
     },
 
@@ -119,7 +166,7 @@ local plugins = {
         lazy = false,
         config = function () require("Comment").setup() end
     },
-    { -- Changing Sournding Matched Pairs
+    { -- Changing Surrounding Matched Pairs
         "kylechui/nvim-surround",
         version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
@@ -128,7 +175,7 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Git
     -----------------------------------------------------------------------------
-    { -- :G and intractively use git inside 
+    { -- :G and interactively use git inside 
         "tpope/vim-fugitive"
     },
     { -- :GBrowse opening the browser and Github Link
@@ -160,6 +207,6 @@ local plugins = {
         end,
     },
 }
-lazy.setup({ 
+lazy.setup({
     spec = { plugins },
 })
