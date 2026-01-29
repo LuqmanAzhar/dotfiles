@@ -24,8 +24,7 @@ local plugins = {
         name = "catpuccin",
         config = function() require("plugins.config.theme") end,
     },
-
-    {
+    { -- Displaying Bottom 
         "nvim-lualine/lualine.nvim",
         dependencies = {"nvim-tree/nvim-web-devicons"},
         config = function() require("plugins.config.lualine") end,
@@ -34,21 +33,18 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Navigation
     -----------------------------------------------------------------------------
-    {
+    { -- Displays Key combinations live
         "folke/which-key.nvim",
-        opts = { }
     },
-    {
+    { -- Marks Improvement
         "chentoast/marks.nvim",
         event = "VeryLazy",
-        opts = {},
+        opts = {}, -- required to display marks in gutter
     },
     -----------------------------------------------------------------------------
     -- LSP
     -----------------------------------------------------------------------------
-
-    {
-        -- LSP Configuration & Plugins
+    { -- LSP Configuration & Plugins
         'neovim/nvim-lspconfig',
         dependencies = {
             -- Automatically install LSPs to stdpath for neovim
@@ -64,12 +60,10 @@ local plugins = {
         },
         config = function() require("plugins.config.lsp") end
     },
-
     -----------------------------------------------------------------------------
     -- Completions
     -----------------------------------------------------------------------------
-    {
-        -- Autocompletion
+    { -- Autocompletion
         'hrsh7th/nvim-cmp',
         dependencies = {
             -- Snippet Engine & its associated nvim-cmp source
@@ -88,7 +82,7 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Treesitter
     -----------------------------------------------------------------------------
-    {
+    { -- Treesitter Text selections:<C-space>
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             'nvim-treesitter/nvim-treesitter-textobjects',
@@ -100,18 +94,13 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Telescope
     -----------------------------------------------------------------------------
-    {
+    { -- Pickers and primarily
         'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
+        version = '*',
         dependencies = {
             'nvim-lua/plenary.nvim',
-            -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-            -- Only load if `make` is available. Make sure you have the system
-            -- requirements installed.
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
-                -- NOTE: If you are having trouble with this installation,
-                --       refer to the README for telescope-fzf-native for more instructions.
                 build = 'make',
                 cond = function()
                     return vim.fn.executable 'make' == 1
@@ -124,35 +113,33 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Syntax, Languages & Code
     -----------------------------------------------------------------------------
-    -- Comment lines/blocks
-    {
-        'numToStr/Comment.nvim',
-        opts = { },
+    { -- Comment lines/blocks
+        "numToStr/Comment.nvim",
         lazy = false,
-        config = function () require('Comment').setup() end
+        config = function () require("Comment").setup() end
     },
-    -- Changing Sournding Matched Pairs
-    {
+    { -- Changing Sournding Matched Pairs
         "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
         config = function() require("nvim-surround").setup() end
     },
-
-
     -----------------------------------------------------------------------------
     -- Git
     -----------------------------------------------------------------------------
-    { 'tpope/vim-fugitive' },
-    { 'tpope/vim-rhubarb' },
-
+    { -- :G and intractively use git inside 
+        "tpope/vim-fugitive"
+    },
+    { -- :GBrowse opening the browser and Github Link
+        "tpope/vim-rhubarb"
+    },
     { -- :Adds signs in the gutter
         'lewis6991/gitsigns.nvim'
     },
     -----------------------------------------------------------------------------
     -- Obsidian.md
     -----------------------------------------------------------------------------
-    {
+    { -- Configurations :<leader>o+ in MindPalace
         "epwalsh/obsidian.nvim",
         version = "*",
         lazy = true,
@@ -172,5 +159,4 @@ local plugins = {
         end,
     },
 }
-
 plugin.setup(plugins)
