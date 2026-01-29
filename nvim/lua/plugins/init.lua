@@ -146,6 +146,9 @@ local plugins = {
     { 'tpope/vim-fugitive' },
     { 'tpope/vim-rhubarb' },
 
+    { -- :Adds signs in the gutter
+        'lewis6991/gitsigns.nvim'
+    },
     -----------------------------------------------------------------------------
     -- Obsidian.md
     -----------------------------------------------------------------------------
