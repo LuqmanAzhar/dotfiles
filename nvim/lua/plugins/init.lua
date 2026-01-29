@@ -49,18 +49,14 @@ local plugins = {
     -- LSP
     -----------------------------------------------------------------------------
     { -- LSP Configuration & Plugins
-        'neovim/nvim-lspconfig',
+        "neovim/nvim-lspconfig",
         dependencies = {
             -- Automatically install LSPs to stdpath for neovim
-            { 'williamboman/mason.nvim', config = true },
-            'williamboman/mason-lspconfig.nvim',
+            { "williamboman/mason.nvim", opts = {} },
+            "williamboman/mason-lspconfig.nvim",
 
-            -- Useful status updates for LSP
-            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+            { "j-hui/fidget.nvim", opts = {} },
 
-            -- Additional lua configuration, makes nvim stuff amazing!
-            'folke/neodev.nvim',
         },
         config = function() require("plugins.config.lsp") end
     },
@@ -89,7 +85,7 @@ local plugins = {
     { -- Treesitter Text selections:<C-space>
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
+            "nvim-treesitter/nvim-treesitter-textobjects",
         },
         build = ":TSUpdate",
         config = function() require("plugins.config.treesitter") end,
@@ -99,15 +95,15 @@ local plugins = {
     -- Telescope
     -----------------------------------------------------------------------------
     { -- Pickers and primarily
-        'nvim-telescope/telescope.nvim',
-        version = '*',
+        "nvim-telescope/telescope.nvim",
+        version = "*",
         dependencies = {
-            'nvim-lua/plenary.nvim',
+            "nvim-lua/plenary.nvim",
             {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'make',
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
                 cond = function()
-                    return vim.fn.executable 'make' == 1
+                    return vim.fn.executable "make" == 1
                 end,
             },
         },
@@ -138,7 +134,7 @@ local plugins = {
         "tpope/vim-rhubarb"
     },
     { -- :Adds signs in the gutter
-        'lewis6991/gitsigns.nvim'
+        "lewis6991/gitsigns.nvim"
     },
     -----------------------------------------------------------------------------
     -- Obsidian.md
@@ -155,7 +151,7 @@ local plugins = {
         },
         dependencies = {
             "nvim-lua/plenary.nvim",
-            'hrsh7th/nvim-cmp',
+            "hrsh7th/nvim-cmp",
             "nvim-telescope/telescope.nvim"
         },
         config = function()
