@@ -38,11 +38,12 @@ local plugins = {
     -----------------------------------------------------------------------------
     { -- Displays Key combinations live
         "folke/which-key.nvim",
+        opts = {},-- Passes Empty Options to be merged with defaults
     },
     { -- Marks Improvement
         "chentoast/marks.nvim",
         event = "VeryLazy",
-        opts = {}, -- required to display marks in gutter
+        opts = {}, -- Passes Empty Options to be merged with defaults
     },
     -----------------------------------------------------------------------------
     -- LSP
