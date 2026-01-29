@@ -13,46 +13,55 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     os.exit(1)
   end
 end
-vim.opt.runtimepath:prepend(lazypath)
+vim.opt.rtp:prepend(lazypath)
 
-local status_ok, plugin = pcall(require, "lazy")
+local status_ok, lazy = pcall(require, "lazy")
 if not status_ok then return end
 
 local plugins = {
     -----------------------------------------------------------------------------
     -- Look & feel
     -----------------------------------------------------------------------------
-    {
-        "catppuccin/nvim", -- Visual Theme
+    { -- Visual Theme
+        "catppuccin/nvim",
         name = "catpuccin",
         config = function() require("plugins.config.theme") end,
     },
-
-    {
-        "nvim-lualine/lualine.nvim", -- Vim Status line
+    { -- Displaying Bottom 
+        "nvim-lualine/lualine.nvim",
+        dependencies = {"nvim-tree/nvim-web-devicons"},
         config = function() require("plugins.config.lualine") end,
         event = "VimEnter",
     },
     -----------------------------------------------------------------------------
     -- Navigation
     -----------------------------------------------------------------------------
-    {
-        "folke/which-key.nvim", -- Interactive List of Vim Actions
+    { -- Displays Key combinations live
+        "folke/which-key.nvim",
+        opts = {},-- Passes Empty Options to be merged with defaults
     },
-    {
-        "chentoast/marks.nvim", -- Improved Marks
+    { -- Marks Improvement
+        "chentoast/marks.nvim",
         event = "VeryLazy",
+        opts = {}, -- Passes Empty Options to be merged with defaults
     },
     -----------------------------------------------------------------------------
     -- LSP
     -----------------------------------------------------------------------------
-    {
-        "folke/lazydev.nvim", -- Configures LuaLS for neovim configs
-        ft = "lua", -- only load on lua files
-        opts = {
-            library = {
-                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+    { -- LSP Configuration & Plugins
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            -- Automatically install LSPs to stdpath for neovim
+            { "mason-org/mason.nvim", opts = {} },
+            "mason-org/mason-lspconfig.nvim",
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
+
+            { "j-hui/fidget.nvim", opts = {} },
+            { "folke/lazydev.nvim",
+                ft = "lua", -- only load on lua files
+                opts = { library = { { path = "${3rd}/luv/library", words = { "vim%.uv" } }, }, },
             },
+            "saghen/blink.cmp",
         },
     },
     {
@@ -75,57 +84,93 @@ local plugins = {
             require("plugins.config.lsp")
         end
     },
-
     -----------------------------------------------------------------------------
     -- Completions
     -----------------------------------------------------------------------------
-    {
-        -- Autocompletion
-        'hrsh7th/nvim-cmp',
+   { -- Auto completion Blink
+        "saghen/blink.cmp",
+        event = "VimEnter",
+        version = "1.*",
         dependencies = {
-            -- Snippet Engine & its associated nvim-cmp source
-            'L3MON4D3/LuaSnip',
-            'saadparwaiz1/cmp_luasnip',
-
-            -- Adds LSP completion capabilities
-            'hrsh7th/cmp-nvim-lsp',
-
-            -- Adds a number of user-friendly snippets
-            'rafamadriz/friendly-snippets',
+            -- Snippet Engine
+            {
+                "L3MON4D3/LuaSnip",
+                version = "2.*",
+                build = (function()
+                    if vim.fn.has "win32" == 1 or vim.fn.executable "make" == 0 then return end
+                    return "make install_jsregexp"
+                end)(),
+                dependencies = {
+                    {
+                      "rafamadriz/friendly-snippets",
+                      config = function()
+                        require("luasnip.loaders.from_vscode").lazy_load()
+                      end,
+                    },
+                },
+                opts = {},
+            },
         },
-        config = function() require("plugins.config.cmp") end
+        --- @module "blink.cmp"
+        --- @type blink.cmp.Config
+        opts = {
+            keymap = {
+                preset = "default",
+                ["<CR>"] = { "accept", "fallback" },
+				["<Tab>"] = { "select_next", "fallback" },
+				["<S-Tab>"] = { "select_prev", "fallback" },
+				["<Up>"] = { "scroll_documentation_up", "fallback" },
+				["<Down>"] = { "scroll_documentation_down", "fallback" },
+				["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+            },
+            appearance = {
+                nerd_font_variant = "mono",
+            },
+            completion = {
+                documentation = { auto_show = true, auto_show_delay_ms = 500 },
+            },
+            snippets = { preset = "luasnip" },
+            fuzzy = { implementation = "lua" },
+            signature = { enabled = true },
+            sources = {
+                default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+                providers = {
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        score_offset = 100,
+                    },
+                },
+            },
+        }
     },
-
     -----------------------------------------------------------------------------
     -- Treesitter
     -----------------------------------------------------------------------------
-    {
+    { -- Treesitter Text selections:<C-space>
         "nvim-treesitter/nvim-treesitter",
+        branch = "master",
         dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
+            "nvim-treesitter/nvim-treesitter-textobjects",
         },
         build = ":TSUpdate",
+        lazy = false,
         config = function() require("plugins.config.treesitter") end,
     },
 
     -----------------------------------------------------------------------------
     -- Telescope
     -----------------------------------------------------------------------------
-    {
-        'nvim-telescope/telescope.nvim',
-        version = '*',
+    { -- Pickers and primarily
+        "nvim-telescope/telescope.nvim",
+        version = "*",
         dependencies = {
-            'nvim-lua/plenary.nvim',
-            -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-            -- Only load if `make` is available. Make sure you have the system
-            -- requirements installed.
+            "nvim-lua/plenary.nvim",
             {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                -- NOTE: If you are having trouble with this installation,
-                --       refer to the README for telescope-fzf-native for more instructions.
-                build = 'make',
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
                 cond = function()
-                    return vim.fn.executable 'make' == 1
+                    return vim.fn.executable "make" == 1
                 end,
             },
         },
@@ -135,32 +180,33 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Syntax, Languages & Code
     -----------------------------------------------------------------------------
-    -- Comment lines/blocks
-    {
-        'numToStr/Comment.nvim',
-        opts = { },
+    { -- Comment lines/blocks
+        "numToStr/Comment.nvim",
         lazy = false,
-        config = function () require('Comment').setup() end
+        config = function () require("Comment").setup() end
     },
-    -- Changing Sournding Matched Pairs
-    {
+    { -- Changing Surrounding Matched Pairs
         "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
         event = "VeryLazy",
         config = function() require("nvim-surround").setup() end
     },
-
-
     -----------------------------------------------------------------------------
     -- Git
     -----------------------------------------------------------------------------
-    { 'tpope/vim-fugitive' },
-    { 'tpope/vim-rhubarb' },
-
+    { -- :G and interactively use git inside 
+        "tpope/vim-fugitive"
+    },
+    { -- :GBrowse opening the browser and Github Link
+        "tpope/vim-rhubarb"
+    },
+    { -- :Adds signs in the gutter
+        "lewis6991/gitsigns.nvim"
+    },
     -----------------------------------------------------------------------------
     -- Obsidian.md
     -----------------------------------------------------------------------------
-    {
+    { -- Configurations :<leader>o+ in MindPalace
         "epwalsh/obsidian.nvim",
         version = "*",
         lazy = true,
@@ -172,14 +218,14 @@ local plugins = {
         },
         dependencies = {
             "nvim-lua/plenary.nvim",
-            'hrsh7th/nvim-cmp',
+            "hrsh7th/nvim-cmp",
             "nvim-telescope/telescope.nvim"
         },
         config = function()
             require("plugins.config.obsidian")
-            vim.opt.colorcolumn = "120"
         end,
     },
 }
-
-plugin.setup(plugins)
+lazy.setup({
+    spec = { plugins },
+})

@@ -24,11 +24,13 @@ vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 6
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
 
 vim.opt.updatetime = 50
 
 vim.opt.undofile = true
+
+vim.opt.winborder = "rounded"
 
 -- Experimental flags 
 vim.opt.spelllang = "en_au"
