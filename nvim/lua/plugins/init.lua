@@ -19,7 +19,7 @@ local plugins = {
     -----------------------------------------------------------------------------
     -- Look & feel
     -----------------------------------------------------------------------------
-    {
+    { -- Visual Theme
         "catppuccin/nvim",
         name = "catpuccin",
         config = function() require("plugins.config.theme") end,
@@ -27,6 +27,7 @@ local plugins = {
 
     {
         "nvim-lualine/lualine.nvim",
+        dependencies = {"nvim-tree/nvim-web-devicons"},
         config = function() require("plugins.config.lualine") end,
         event = "VimEnter",
     },
