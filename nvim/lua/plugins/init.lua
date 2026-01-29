@@ -52,11 +52,11 @@ local plugins = {
         "neovim/nvim-lspconfig",
         dependencies = {
             -- Automatically install LSPs to stdpath for neovim
-            { "williamboman/mason.nvim", opts = {} },
-            "williamboman/mason-lspconfig.nvim",
+            { "mason-org/mason.nvim", opts = {} },
+            "mason-org/mason-lspconfig.nvim",
 
             { "j-hui/fidget.nvim", opts = {} },
-
+            "saghen/blink.cmp",
         },
         config = function() require("plugins.config.lsp") end
     },
