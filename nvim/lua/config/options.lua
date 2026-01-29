@@ -30,6 +30,8 @@ vim.opt.updatetime = 50
 
 vim.opt.undofile = true
 
+vim.opt.winborder = "rounded"
+
 -- Experimental flags 
 vim.opt.spelllang = "en_au"
 vim.opt.spell = true
