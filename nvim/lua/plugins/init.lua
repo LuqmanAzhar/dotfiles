@@ -204,6 +204,21 @@ local plugins = {
         "lewis6991/gitsigns.nvim"
     },
     -----------------------------------------------------------------------------
+    -- DAP
+    -----------------------------------------------------------------------------
+    {
+        "mfussenegger/nvim-dap",
+        dependencies = {
+            -- "rcarriga/nvim-dap-ui", -- UI for DAP
+            --
+            -- "nvim-neotest/nvim-nio",
+
+            "mason-org/mason.nvim", -- Installing Adapters
+            "jay-babu/mason-nvim-dap.nvim", -- Activating them
+        },
+        config = function() require("plugins.config.debug") end,
+    },
+    -----------------------------------------------------------------------------
     -- Obsidian.md
     -----------------------------------------------------------------------------
     { -- Configurations :<leader>o+ in MindPalace
